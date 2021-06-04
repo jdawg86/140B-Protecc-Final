@@ -2,8 +2,10 @@ FROM python:3.8
 ENV PYTHONUNBUFFERED 1
 
 # If using Bjoern webserver, please uncomment these two lines
+# RUN sudo usermod -a -G video developer
 RUN apt-get update
 RUN apt-get install libev-dev -y
+RUN apt-get install ffmpeg libsm6 libxext6  -y
 RUN pip install cmake
 
 COPY ./src/requirements.txt /tmp

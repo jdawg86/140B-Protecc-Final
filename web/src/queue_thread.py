@@ -13,6 +13,7 @@ baseline_image=None
 # A thread that produces data
 def motion_detection(out_q):
     while True:
+        time.sleep(2)
         global baseline_image
         global video
         # Produce some data
@@ -20,7 +21,8 @@ def motion_detection(out_q):
         status=0
         gray_frame=cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
         gray_frame=cv2.GaussianBlur(gray_frame,(25,25),0)
-        color_frame = cv2.cvtColor(frame,cv2.COLOR_BGR2RGB)
+        #color_frame = cv2.cvtColor(frame,cv2.COLOR_BGR2RGB)
+        color_frame = frame
 
         if baseline_image is None:
             baseline_image=gray_frame
@@ -64,7 +66,7 @@ def motion_detection(out_q):
                 motion = True
         if(motion):
             out_q.put(frame_dict)
-            print("Motion!")
+            # print("Motion!")
             # print("out_q: " + str(out_q.qsize()))
 
 # A thread that consumes data
@@ -78,7 +80,7 @@ def facial_recognition(in_q, known_faces, known_faces_enc):
         # color_frame = np.asarray(frames['color_frame'])
         color_frame = frames['color_frame']
         small_frame = cv2.resize(frames['color_frame'], (0, 0), fx=0.25, fy=0.25)
-        cv2.imwrite("./motion_captures/motion.jpg", color_frame)
+        cv2.imwrite("public/motion_cap/motion.jpg", color_frame)
 
         # print(np_color_frame.shape)
         # image = PIL.Image.fromarray(np_color_frame, "RGB")
@@ -106,7 +108,9 @@ if __name__ == "__main__":
     image_paths = []
     known_face_names = []
     for files in image_types:
-        image_paths.extend(glob.glob((join("known_faces/", files))))
+        image_paths.extend(glob.glob((join("public/known_faces/", files))))
+
+    print(image_paths)
 
     for p in image_paths:
         print(p)

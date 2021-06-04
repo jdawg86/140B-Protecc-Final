@@ -121,7 +121,7 @@ def start_algo(req):
 
   if n <= 0:
     pid = n
-    os.system('python3 hello.py')
+    os.system('python3 queue_thread.py')
   
   return render_to_response('templates/protecc.html', [], request=req)
 
