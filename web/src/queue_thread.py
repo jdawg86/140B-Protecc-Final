@@ -49,7 +49,7 @@ def motion_detection(out_q):
                 motion = True
         if(motion):
             out_q.put(frame_dict)
-            cv2.imwrite("public/motion_cap/motion.jpg", frames['color_frame'])
+            cv2.imwrite("public/motion_cap/motion.jpg", frame_dict['color_frame'])
             # print("Motion!")
             # print("out_q: " + str(out_q.qsize()))
 
@@ -88,15 +88,14 @@ if __name__ == "__main__":
     for files in image_types:
         image_paths.extend(glob.glob((join("public/known_faces/", files))))
 
-    print(image_paths)
 
     for p in image_paths:
         print(p)
         known_face_names.append(p)
         face_img = face_recognition.load_image_file(p)
-        # print(face_img.shape)
-        # image = PIL.Image.fromarray(face_img, "RGB")
-        # image = image.save("test/known.jpg")
+        if (face_img == 0):
+            print("No Faces Found in " + str(p) )
+            continue
         known_faces_enc.append(face_recognition.face_encodings(face_img)[0])    # [0] first face
     q = Queue()
     facial_recog = Thread(target = facial_recognition, args =(q, known_face_names, known_faces_enc, ))
