@@ -1,0 +1,40 @@
+<!DOCTYPE html> 
+<html>
+  <!--head-->
+<head>
+  <title>trustdir</title>
+  <link rel="stylesheet" type="text/css" href="css/trustdir.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script type="text/javascript">
+    /*$(document).ready(function () {
+        setTimeout(function () {
+            window.location.reload();
+        }, 5000);
+    });*/
+  </script>
+</head>
+  
+  <!--body-->
+<body>
+  <div class = "return_page">
+    <input class = "return home" type = button onClick = "location.href = '/';" value='Return Home'>
+  </div>
+  <h1>Trusted People Directory</h1>
+  <!-- {% for i in img %}
+  <img id="picture" src="{{img}}">
+  {% endfor %} -->
+
+  <table class='margin-top-xl'>
+    <tbody>
+      {% for i in img %}
+      <tr>
+        <img id="picture" src="{{i}}" height=300>
+        <p>{{i}}</p>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+</body>

@@ -1,0 +1,24 @@
+<!DOCTYPE html> 
+<html>
+  <!--head-->
+<head>
+  <title>Record Directory</title>
+  <link rel="stylesheet" type="text/css" href="css/record_dir.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+  </style>
+</head>
+  
+  <!--body-->
+<body>
+    <div class = "return_page">
+        <input class = "return home" type = button onClick = "location.href = '/'" value='Return Home'>
+      </div>
+      <h1>Recorded Footage Directory</h1>
+      {% for v in vid %}
+      <tr>
+        <video src="{{v}}" controls>
+        </video>
+      </tr>
+      {% endfor %}
+</body>

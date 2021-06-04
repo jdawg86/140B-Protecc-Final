@@ -1,0 +1,261 @@
+<!DOCTYPE html> 
+<html>
+  <!--head-->
+<head>
+  <title>Protecc</title>
+  <link rel="stylesheet" type="text/css" href="css/protecc.css">
+  <script type="text/javascript" src="protecc.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    .column {
+      float: left;
+      padding: 10px;
+      height: 200px;
+    }
+    .sensitivity, .cam_resolution {
+      width: 33%;
+    }
+    .record_video {
+      width: 34%;
+    }
+    table, th, td {
+      border: 1px solid black;
+      border-collapse: collapse;
+    }
+  </style>
+
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script type="text/javascript">
+    var newImage = new Image();
+    $(document).ready(function () {
+        setTimeout(function () {
+            window.location.reload();
+            // newImage.src = document.getElementById("picture").src;
+            // number++;
+            // document.getElementById("picture").src = "protecc_backend/known_faces/obama.jpeg";
+            // console.log("new image: " + document.getElementById("picture").src);
+        }, 5000);
+    });
+  </script>-->
+</head>
+  
+  <!--body-->
+<body>
+  <h1> P R O T E C C </h1>
+  <!--TABS-->
+  <div class="tab">
+    <button class="tablinks" onclick="userInfo(event, 'help')">Help</button>
+    <button class="tablinks" onclick="userInfo(event, 'contact')">Contact</button>
+    <button class="tablinks" onclick="userInfo(event, 'about')">About</button>
+    <button class="tablinks" onclick="userInfo(event, 'mini')">Minimize Tabs</button>
+  </div>
+  
+  <div id="help" class="tabcontent">
+    <h3>Help</h3>
+    <table style="width:100% ; background-color: #9FE2BF;">
+      <tr>
+        <th style="width:33%">Webcam</th>
+        <th style="width:34%">Detection Settings</th> 
+        <th style="width:33%">Directories</th>
+      </tr>
+      <tr>
+        <td><p style = "font-family: arial">Any USB camera will work with Protecc, but we recommend using a weatherproof one for outdoor installations. To add a camera, 
+          simply plug it into a USB port and mount it to the front of the case.</p> </td>
+        <td><p style = "font-family: arial"><strong>Sensitivity: </strong>This sets how sensitive the motion capture is. Lower the sensitivity to prevent small things from 
+          triggering the motion capture, and raise it if some things are not getting detected. <br> <br> <strong>Record Video: </strong>When set to on, Protecc will constantly
+          record and save footage. <br> <br><strong>Camera Resolution:</strong> The quality of video that Protecc will capture. Higher resolutions will take up more space, but be more clear. Note: 
+          Max resolution depends on the camera being used.</p> </td> 
+        <td><p style = "font-family: arial"><strong>Unknown People Directory:</strong> Images captured of people not in the 'Trusted People' list will be available here, sorted by most recent.
+          <br><br><strong>Trusted People Directory:</strong> Contains images of every person who is trusted and a button to upload a photo of a new trusted person. 
+          <br><br><strong>Motion Image Directory:</strong> Images of each time motion is detected, sorted by most recent.
+          <br><br><strong>Recorded Footage Directory:</strong> Contains all previously recorded footage.</p></td>
+      </tr>
+    </table>
+  </div>
+  
+  <div id="contact" class="tabcontent">
+    <h3>Contact</h3>
+    <p style = "font-family: arial">
+      <strong>Address: </strong>9500 Gilman Dr, La Jolla, CA 92093 <br><br>
+      <strong>Phone: </strong>(858) 534-6237</p> 
+  </div>
+  
+  <div id="about" class="tabcontent">
+    <h3>About</h3>
+    <p>About Description</p>
+  </div>
+
+  <div id="mini" class="tabcontent">
+    <p>Tabs minimized</p>
+  </div>
+
+  <script>
+    function userInfo(evt, theInfo) {
+      var i, tabcontent, tablinks;
+      tabcontent = document.getElementsByClassName("tabcontent");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+      tablinks = document.getElementsByClassName("tablinks");
+      for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
+      document.getElementById(theInfo).style.display = "block";
+      evt.currentTarget.className += " active";
+    }
+  </script>
+
+  <!--Setting Menu
+  <div class="dropdown">
+    <button class="dropbtn">Detection Settings</button>
+    <div class="dropdown-content">
+      <a href="#sensitivity">Sensitivity</a>
+      <a href="#record_video">Record Video</a>
+      <a href="#cam_resolution">Camera Resolution</a>
+    </div>
+  </div>
+  <br>
+-->
+
+<!--Setting Menu--> 
+<h3>Detection Settings</h3>
+  <div class="column sensitivity" style="background-color:#63D1F4;">
+    <!--form action="/action_page.php" method="get"-->
+    <form>
+      <label for="sensitivity">Sensitivity (between 0 and 100):</label>
+      <input type="range" id="sensitivity" name="sensitivity" min="0" max="100" step = "10">
+      <input id = "sens_button" type="button" onClick="number()" value="Submit">
+    </form>
+    <script>
+      function number(){
+        //store as Json object
+        var sens = {
+          sensitivity : document.getElementById("sensitivity").value
+        }
+        //Display on the website
+        var sens_num = document.getElementById("sensitivity").value
+        document.getElementById("display_sens").innerHTML = sens_num;
+        //var sens_Str = JSON.stringify(sens);
+        //document.getElementById("the_sens").innerHTML = sens_Str;
+      }
+    </script>
+    <p>Sensitivity Value: <span id="display_sens"></span> </p> 
+  </div>
+
+  <div class="column record_video" style="background-color:#8FDEF7;">
+    <form>
+      <p>Record Video:</p>
+      <input type="radio" id="on" name="video" value="on">
+      <label for="on">On</label><br>
+      <input type="radio" id="off" name="video" value="off">
+      <label for="off">Off</label><br>
+      <input id = "record_button" type="button" onclick="record()" value="Submit">
+    </form>
+    <script>
+      function record(){
+        //display on website
+        //var vi = document.getElementsByName('video');
+        //for(i = 0; i < vi.length; i++) {
+          //if(vi[i].checked)
+          //document.getElementById("record_video_tag").innerHTML = vi[i].value
+        //}
+        //store as Json Object
+        var vii = document.getElementsByName('video');
+        var rv = ''
+        for(j = 0; j < vii.length; j++) {
+          if(vii[j].checked)
+          rv = vii[j].value
+        }
+        var record_video = {
+          recording : rv
+        }
+        //var rv_str = JSON.stringify(record_video);
+        //document.getElementById("the_rv").innerHTML = rv_str;
+        document.getElementById("the_rv").innerHTML = rv;
+      }
+    </script>
+    <p>Record Selection: <span id="the_rv"></span> </p> 
+  </div>
+
+  <div class="column cam_resolution" style="background-color:#BBEBFA;">
+    <form>
+      <p>Camera Resolution:</p>
+      <!--<input type="checkbox" id="480p" name="resolution" value="480" onclick="mark_option(this)">
+      <label for="480p"> 480p</label><br>
+      <input type="checkbox" id="720p" name="resolution" value="720" onclick="mark_option(this)">
+      <label for="720p"> 720p</label><br>
+      <input type="checkbox" id="1080p" name="resolution" value="1080" onclick="mark_option(this)">
+      <label for="1080p"> 1080p</label><br>
+      <input type="button" onlick = "cam()" value="Submit">-->
+      <input type="radio" id="480p" name="resolution" value="480">
+      <label for="480p">480p</label><br>
+      <input type="radio" id="720p" name="resolution" value="720">
+      <label for="720p">720p</label><br>
+      <input type="radio" id="1080p" name="resolution" value="1080">
+      <label for="1080p">1080p</label><br>
+      <input id = "cam_button" type="button" onclick="cam()" value="Submit">
+    </form>
+    <script>
+      function cam(){
+        var res = document.getElementsByName('resolution');
+        var cam_res = ''
+        for(k = 0; k < res.length; k++) {
+          if(res[k].checked)
+          cam_res = res[k].value
+        }
+        var cam_resolution = {
+          camera : cam_res
+        }
+        //var cam_str = JSON.stringify(cam_resolution);
+        //document.getElementById("display_cam").innerHTML = cam_str;
+        document.getElementById("the_cam").innerHTML = cam_res;
+      }
+      //example for concat : jsonArray1 = jsonArray1.concat(jsonArray2);
+    </script>
+    <p>Selected Resolution: <span id="the_cam"></span> </p> 
+  </div>
+  <br>
+  <hr size="8" width="100%" float ="left" color = #E7F8FD >
+  <br> 
+
+  <!--controls-->
+  <h2>Controls</h2>
+  <div id ="controls">
+    <!--start button-->
+    <div class = "start_stop">
+      <button class = "start_button" onclick="alert('Protection On!')" ><a href='/start_algo'>START</a></button>
+    </div>
+     <!--stop button--->
+     <div class = "start_stop">
+      <button class = "stop_button" onclick="alert('Protection Off!')" ><a href='/stop_algo'>STOP</a></button>
+     </div>
+  </div>
+  <br>
+  
+  <h2>Directories</h2>
+  <div id ="dirs">
+    <div class = "all_dir">
+      <input class = "dir unknown" type = button onClick = "location.href = '/unknown_dir';" value='Unknown People Directory'>
+    </div>
+    <div class = "all_dir">
+      <input class = "dir trust" type = button onClick = "location.href = '/trust_dir';" value='Trusted People Directory'>
+    </div>
+    <div class = "all_dir">
+      <input class = "dir motion" type = button onClick = "location.href = '/motion_dir';" value='Motion Detection Directory'>
+    </div>
+    <div class = "all_dir">
+      <input class = "dir record" type = button onClick = "location.href = '/record_dir';" value='Recorded Footage Directory'>
+    </div>
+  </div>
+  <br>
+
+
+</body>
+</html>
+    
+  
+
+

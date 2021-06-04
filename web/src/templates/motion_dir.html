@@ -1,0 +1,29 @@
+<!DOCTYPE html> 
+<html>
+  <!--head-->
+<head>
+  <title>Motion Directory</title>
+  <link rel="stylesheet" type="text/css" href="css/motiondir.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+        setTimeout(function () {
+            location.href = location.href
+        }, 5000);
+    });
+  </script>
+</head>
+  
+  <!--body-->
+<body>
+  <div class = "return_page">
+    <input class = "return home" type = button onClick = "location.href = '/';" value='Return Home'>
+  </div>
+  <h1>Motion Capture Directory</h1>
+  {% for i in img[0] %}
+  <img id="picture" src="{{img}}">
+  {% endfor %}
+
+</body>
