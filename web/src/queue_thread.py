@@ -66,6 +66,7 @@ def facial_recognition(in_q, known_faces, known_faces_enc):
 
 
         compare_enc = face_recognition.face_encodings(small_frame)
+        name = ""
         if(len(compare_enc) != 0):
             print("found matching face: ")
             for matches in compare_enc:
