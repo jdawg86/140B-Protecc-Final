@@ -69,12 +69,12 @@ def facial_recognition(in_q, known_faces, known_faces_enc):
         name = ""
         if(len(compare_enc) != 0):
             print("found matching face: ")
-            for matches in compare_enc:
-                results = face_recognition.compare_faces(known_faces_enc, matches)
-            if True in matches:
-                first_match_index = matches.index(True)
-                name = known_faces[first_match_index]
-            print(name)
+            for found in compare_enc:
+                matches = face_recognition.compare_faces(known_faces_enc, found)
+                if True in matches:
+                    first_match_index = matches.index(True)
+                    name = str(known_faces[first_match_index])
+                print(str(name))
         # else:
         #     print("no matching face")
         # Indicate completion
@@ -93,11 +93,11 @@ if __name__ == "__main__":
 
     for p in image_paths:
         print(p)
-        known_face_names.append(p)
         face_img = face_recognition.load_image_file(p)
         if (len(face_img) == 0):
             print("No Faces Found in " + str(p) )
             continue
+        known_face_names.append(p)
         known_faces_enc.append(face_recognition.face_encodings(face_img)[0])    # [0] first face
     q = Queue()
     facial_recog = Thread(target = facial_recognition, args =(q, known_face_names, known_faces_enc, ))
