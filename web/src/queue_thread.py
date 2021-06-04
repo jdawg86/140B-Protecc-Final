@@ -93,7 +93,7 @@ if __name__ == "__main__":
         print(p)
         known_face_names.append(p)
         face_img = face_recognition.load_image_file(p)
-        if (face_img == 0):
+        if (len(face_img) == 0):
             print("No Faces Found in " + str(p) )
             continue
         known_faces_enc.append(face_recognition.face_encodings(face_img)[0])    # [0] first face
