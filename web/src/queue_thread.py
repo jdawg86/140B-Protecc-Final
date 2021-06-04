@@ -10,10 +10,11 @@ import PIL
 
 video=cv2.VideoCapture(0)
 baseline_image=None
+
 # A thread that produces data
 def motion_detection(out_q):
     while True:
-        time.sleep(2)
+        time.sleep(1)
         global baseline_image
         global video
         # Produce some data
@@ -21,10 +22,9 @@ def motion_detection(out_q):
         status=0
         gray_frame=cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
         gray_frame=cv2.GaussianBlur(gray_frame,(25,25),0)
-        #color_frame = cv2.cvtColor(frame,cv2.COLOR_BGR2RGB)
         color_frame = frame
 
-        if baseline_image is None:
+        if baseline_image is None or out_q.qsize() > 1000:
             baseline_image=gray_frame
             continue
 
@@ -34,23 +34,6 @@ def motion_detection(out_q):
         (contours,_)=cv2.findContours(threshold,cv2.RETR_EXTERNAL,
                                                     cv2.CHAIN_APPROX_SIMPLE)
 
-
-        # box_frame = None
-        # for contour in contours:
-        #     if cv2.contourArea(contour) < 10000:
-        #         continue
-        #     status=1
-        #     (x, y, w, h)=cv2.boundingRect(contour)
-        #     box_frame = cv2.rectangle(frame,(x, y), (x+w, y+h), (0,255,0), 1)
-        #
-        # frame_dict = {'gray_frame' : gray_frame,
-        #               'delta_frame' : delta,
-        #               'thresh_frame' : threshold,
-        #               'color_frame' : color_frame,
-        #               'box_frame' : box_frame}
-        #
-        # out_q.put(frame_dict)
-        # print("out_q: " + str(out_q.qsize()))
         box_frame = None
         motion = False
         for contour in contours:
@@ -66,6 +49,7 @@ def motion_detection(out_q):
                 motion = True
         if(motion):
             out_q.put(frame_dict)
+            cv2.imwrite("public/motion_cap/motion.jpg", frames['color_frame'])
             # print("Motion!")
             # print("out_q: " + str(out_q.qsize()))
 
@@ -76,15 +60,9 @@ def facial_recognition(in_q, known_faces, known_faces_enc):
         # print("in_q: " + str(in_q.qsize()))
         frames = in_q.get()
         # Process the data
-        # print("Facial Recognition")
         # color_frame = np.asarray(frames['color_frame'])
         color_frame = frames['color_frame']
         small_frame = cv2.resize(frames['color_frame'], (0, 0), fx=0.25, fy=0.25)
-        cv2.imwrite("public/motion_cap/motion.jpg", color_frame)
-
-        # print(np_color_frame.shape)
-        # image = PIL.Image.fromarray(np_color_frame, "RGB")
-        # image.save("./motion_captures/motion.jpg")
 
 
         compare_enc = face_recognition.face_encodings(small_frame)
