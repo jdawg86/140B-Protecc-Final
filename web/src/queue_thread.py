@@ -29,7 +29,7 @@ def motion_detection(out_q):
             continue
 
         delta=cv2.absdiff(baseline_image,gray_frame)
-        min = 60
+        min = 50
         threshold=cv2.threshold(delta, min, 255, cv2.THRESH_BINARY)[1]
         (contours,_)=cv2.findContours(threshold,cv2.RETR_EXTERNAL,
                                                     cv2.CHAIN_APPROX_SIMPLE)
