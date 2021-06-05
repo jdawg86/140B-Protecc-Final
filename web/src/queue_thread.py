@@ -75,7 +75,7 @@ def facial_recognition(in_q, known_faces, known_faces_enc):
                 if True in matches:
                     first_match_index = matches.index(True)
                     name = str(known_faces[first_match_index])
-                print("found matching face: " + str(name))
+                    print("found matching face: " + str(name))
         else:
             timestr = time.strftime("%Y%m%d-%H%M%S")
             cv2.imwrite(f"public/unknown_faces/unknown_{timestr}.jpg", color_frame)
