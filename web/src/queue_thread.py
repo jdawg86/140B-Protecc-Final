@@ -49,7 +49,8 @@ def motion_detection(out_q):
                 motion = True
         if(motion):
             out_q.put(frame_dict)
-            cv2.imwrite("public/motion_cap/motion.jpg", frame_dict['color_frame'])
+            timestr = time.strftime("%Y%m%d-%H%M%S")
+            cv2.imwrite(f"public/motion_cap/motion{timestr}.jpg", frame_dict['color_frame'])
             # print("Motion!")
             # print("out_q: " + str(out_q.qsize()))
 
