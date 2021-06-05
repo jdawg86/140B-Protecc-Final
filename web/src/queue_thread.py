@@ -50,7 +50,7 @@ def motion_detection(out_q):
         if(motion):
             out_q.put(frame_dict)
             timestr = time.strftime("%Y%m%d-%H%M%S")
-            cv2.imwrite(f"public/motion_cap/motion{timestr}.jpg", frame_dict['color_frame'])
+            cv2.imwrite(f"public/motion_cap/motion_{timestr}.jpg", frame_dict['color_frame'])
             # print("Motion!")
             # print("out_q: " + str(out_q.qsize()))
 
@@ -76,8 +76,9 @@ def facial_recognition(in_q, known_faces, known_faces_enc):
                     first_match_index = matches.index(True)
                     name = str(known_faces[first_match_index])
                 print("found matching face: " + str(name))
-        # else:
-        #     print("no matching face")
+        else:
+            timestr = time.strftime("%Y%m%d-%H%M%S")
+            cv2.imwrite(f"public/unknown_faces/unknown_{timestr}.jpg", color_frame)
         # Indicate completion
         in_q.task_done()
 
